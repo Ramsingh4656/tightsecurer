@@ -96,3 +96,7 @@ coverage/
 !js/
 !index.html
 !README.md
+
+
+# Anthropic Skills
+.agents/
