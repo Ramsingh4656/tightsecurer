@@ -254,7 +254,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Log to session history/localstorage statistics
-        if (typeof trackAnalysis === "function") {
+        if (typeof updateStatistics === "function") {
+            updateStatistics(passwordValue, result);
+        } else if (typeof trackAnalysis === "function") {
             trackAnalysis(result);
         }
     }
