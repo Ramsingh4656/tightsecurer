@@ -1,27 +1,29 @@
 /**
- * Animation keyframes and transitions for the Password Security Assistant.
+ * Animation keyframes, transitions, and hover effects for the Password Security Assistant.
  * Follows kebab-case for CSS classes.
  */
+
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
 
 /* Fade In */
 @keyframes fadeIn {
     from {
         opacity: 0;
+        transform: scale(0.98);
     }
     to {
         opacity: 1;
+        transform: scale(1);
     }
-}
-
-.animate-fade-in {
-    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Slide Up */
 @keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(24px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -29,27 +31,14 @@
     }
 }
 
-.animate-slide-up {
-    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animation-delay-1 {
-    animation-delay: 0.15s;
-    animation-fill-mode: both;
-}
-
-/* Shake (For errors or weak warnings) */
+/* Shake (For validation failures or empty password checks) */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
 }
 
-.animate-shake {
-    animation: shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-}
-
-/* Success Pulse (Glow effect when very strong is achieved) */
+/* Success Pulse (Subtle glowing pulse for Very Strong passwords) */
 @keyframes successPulse {
     0% {
         box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
@@ -62,43 +51,136 @@
     }
 }
 
-.animate-success-pulse {
-    animation: successPulse 2s infinite;
-}
-
-/* Slide In Right (For toast messages) */
+/* Slide In Right (For Toast notifications) */
 @keyframes slideInRight {
     from {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(120%) scale(0.9);
     }
     to {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateX(0) scale(1);
     }
 }
 
-.animate-slide-in-right {
-    animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Slide Out Right (For dismissing toast messages) */
+/* Slide Out Right (For Toast dismissals) */
 @keyframes slideOutRight {
     from {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateX(0) scale(1);
     }
     to {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(120%) scale(0.9);
     }
 }
 
-.animate-slide-out-right {
-    animation: slideOutRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Sparkle Shine (For generate CTA button icon) */
+@keyframes sparkleShine {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+    50% { transform: scale(1.15) rotate(15deg); opacity: 1; filter: drop-shadow(0 0 4px var(--primary-blue)); }
 }
 
-/* Global Transitions */
-input, button, .card, .metric-pill, .dist-bar-fill, .strength-meter-bar {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+/* ==========================================================================
+   Animation Classes
+   ========================================================================== */
+
+.animate-fade-in {
+    animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animation-delay-1 {
+    animation-delay: 0.12s;
+    animation-fill-mode: both;
+}
+
+.animate-shake {
+    animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.animate-success-pulse {
+    animation: successPulse 2s cubic-bezier(0.25, 0, 0, 1) infinite;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+}
+
+.animate-slide-out-right {
+    animation: slideOutRight 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+}
+
+/* ==========================================================================
+   Transitions & Hover Effects
+   ========================================================================== */
+
+/* Global transitions across interactive components */
+input, 
+button, 
+.card, 
+.metric-pill, 
+.generated-box-container {
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+/* Card hover scale and glow effect */
+.card:hover, .stats-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--card-border-glow);
+    box-shadow: 0 16px 40px 0 rgba(37, 99, 235, 0.12), var(--glass-shadow);
+}
+
+/* Button scaling and click feedback */
+.primary-btn:active, 
+.secondary-btn:active, 
+.cta-btn:active, 
+.icon-btn:active {
+    transform: scale(0.97);
+}
+
+/* Sparkle button hover effects */
+.cta-btn:hover .sparkles-icon {
+    animation: sparkleShine 1s infinite alternate ease-in-out;
+}
+
+/* Password visibility and copy action buttons */
+.icon-btn svg {
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.icon-btn:hover svg {
+    transform: scale(1.1);
+}
+
+/* Slider thumb adjustments */
+.range-slider::-webkit-slider-thumb {
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.range-slider:active::-webkit-slider-thumb {
+    transform: scale(1.25);
+    box-shadow: 0 0 12px 2px var(--primary-blue);
+}
+
+/* ==========================================================================
+   Meter Fill Animation (Custom Elastic Bounce)
+   ========================================================================== */
+
+/* Strength Meter progress bar fill transition */
+.strength-meter-bar {
+    transition: width 0.75s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.4s ease;
+}
+
+/* Statistics distribution bar fill transition */
+.dist-bar-fill {
+    transition: width 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Metric checklist pill transitions */
+.metric-pill {
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
