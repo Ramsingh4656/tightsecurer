@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Security Assistant | Secure Strength Analyzer</title>
+    
+    <!-- Meta Descriptions for SEO -->
+    <meta name="description" content="An advanced single-page password security assistant. Analyze password strength with 9 distinct metrics, calculate a score, and generate cryptographically secure passwords.">
+    
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- Gradient Background Highlights -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header class="app-header animate-fade-in">
+            <div class="logo-area">
+                <svg class="shield-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="url(#shieldGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="shieldGrad" x1="4" y1="2" x2="20" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#2563EB" />
+                            <stop offset="1" stop-color="#3B82F6" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>Fortress</h1>
+            </div>
+            <p class="subtitle">Password Security Assistant</p>
+        </header>
+
+        <!-- Main Dashboard Grid -->
+        <main class="dashboard-grid">
+            
+            <!-- Left Column: Input & Results -->
+            <div class="column left-col animate-slide-up">
+                
+                <!-- Password Input Card -->
+                <section class="card glass-card input-card">
+                    <h2 class="section-title">Analyze Password</h2>
+                    <p class="card-description">Verify the strength of your password against 9 security metrics.</p>
+                    
+                    <div class="input-wrapper">
+                        <input type="password" id="passwordInput" placeholder="Enter password to analyze..." autocomplete="off">
+                        <button type="button" id="togglePasswordBtn" class="icon-btn" aria-label="Toggle password visibility">
+                            <svg id="eyeIconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg id="eyeIconClosed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off hidden">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <button id="analyzeBtn" class="primary-btn">
+                        <span>Analyze Strength</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-arrow">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </section>
+
+                <!-- Results Card -->
+                <section id="resultsSection" class="card glass-card results-card hidden-element">
+                    <h2 class="section-title">Analysis Results</h2>
+                    
+                    <!-- Score & Meter Header -->
+                    <div class="result-header">
+                        <div class="score-circle">
+                            <span id="scoreDisplay">0</span>
+                            <span class="score-max">/100</span>
+                        </div>
+                        <div class="status-box">
+                            <span class="status-title">Status</span>
+                            <span id="statusLabel">Weak</span>
+                        </div>
+                    </div>
+
+                    <!-- Strength Meter -->
+                    <div class="strength-meter-container">
+                        <div id="strengthMeter" class="strength-meter-bar"></div>
+                    </div>
+
+                    <!-- Rule Breakdown Summary -->
+                    <div class="metrics-grid">
+                        <div class="metric-pill" data-rule="length">Length</div>
+                        <div class="metric-pill" data-rule="uppercase">Uppercase</div>
+                        <div class="metric-pill" data-rule="lowercase">Lowercase</div>
+                        <div class="metric-pill" data-rule="number">Number</div>
+                        <div class="metric-pill" data-rule="symbol">Symbol</div>
+                        <div class="metric-pill" data-rule="noRepeats">No Repeats</div>
+                        <div class="metric-pill" data-rule="noSequences">No Sequences</div>
+                        <div class="metric-pill" data-rule="notCommon">Not Common</div>
+                        <div class="metric-pill" data-rule="entropy">Entropy</div>
+                    </div>
+
+                    <!-- Dynamic Alerts & Suggestions -->
+                    <div class="analysis-feedback-details">
+                        <!-- Success Message -->
+                        <div id="successMessage" class="feedback-box success-box hidden-element">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feedback-icon">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <div class="feedback-text">
+                                <strong>Excellent choice!</strong> This password is safe and meets all major security recommendations.
+                            </div>
+                        </div>
+
+                        <!-- Weaknesses List -->
+                        <div id="weaknessBox" class="feedback-box error-box hidden-element">
+                            <h3 class="feedback-title">Weaknesses Detected</h3>
+                            <ul id="weaknessesList" class="feedback-list"></ul>
+                        </div>
+
+                        <!-- Suggestions List -->
+                        <div id="suggestionBox" class="feedback-box info-box hidden-element">
+                            <h3 class="feedback-title">Suggestions for Improvement</h3>
+                            <ul id="suggestionsList" class="feedback-list"></ul>
+                        </div>
+                    </div>
+
+                    <!-- Generate Strong Password Button (Shown for Weak/Medium) -->
+                    <button id="generateBtn" class="cta-btn hidden-element">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sparkles-icon">
+                            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707-.707M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
+                        </svg>
+                        <span>Generate Strong Password</span>
+                    </button>
+                </section>
+
+            </div>
+
+            <!-- Right Column: Generator & Statistics -->
+            <div class="column right-col animate-slide-up animation-delay-1">
+                
+                <!-- Generator Card -->
+                <section id="generatorSection" class="card glass-card generator-card hidden-element">
+                    <h2 class="section-title">Strong Password Generator</h2>
+                    <p class="card-description">Generate a cryptographically secure, random password.</p>
+                    
+                    <!-- Generated Password Display Box -->
+                    <div class="generated-box-container">
+                        <div id="generatedPasswordBox" class="generated-password-text">Press regenerate...</div>
+                        <div class="generated-actions">
+                            <button id="copyBtn" class="icon-btn" title="Copy to Clipboard" aria-label="Copy generated password">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                            <button id="regenerateBtn" class="icon-btn" title="Regenerate Password" aria-label="Regenerate password">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Generator Controls -->
+                    <div class="generator-controls">
+                        <div class="slider-header">
+                            <span class="control-label">Password Length</span>
+                            <span id="lengthDisplay" class="control-val">16</span>
+                        </div>
+                        <input type="range" id="lengthSlider" min="8" max="32" value="16" class="range-slider">
+                    </div>
+                </section>
+
+                <!-- Statistics Card -->
+                <section id="statsSection" class="stats-section">
+                    <!-- Loaded dynamically via js/statistics.js -->
+                </section>
+
+            </div>
+
+        </main>
+        
+        <!-- Footer -->
+        <footer class="app-footer-info animate-fade-in">
+            <p>Designed for B.Sc. IT &bull; Security & Privacy First &bull; Offline Analysis</p>
+        </footer>
+
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts (Ordering matters for dependencies) -->
+    <script src="js/utils.js"></script>
+    <script src="js/analyzer.js"></script>
+    <script src="js/generator.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

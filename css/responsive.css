@@ -1,0 +1,128 @@
+/**
+ * Responsive adjustments for the Password Security Assistant.
+ * Isolate media queries here to keep core styles clean.
+ * Follows kebab-case for CSS classes.
+ */
+
+/* Medium Devices: Laptops & Tablets */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Stack columns vertically */
+        gap: 1.5rem;
+    }
+
+    body {
+        padding: 1.5rem 1rem;
+    }
+
+    .app-container {
+        gap: 1.5rem;
+    }
+}
+
+/* Small Devices: Mobile Phones */
+@media (max-width: 640px) {
+    body {
+        padding: 1rem 0.5rem;
+    }
+
+    .app-header .logo-area h1 {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
+    .card {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    #passwordInput {
+        padding: 0.9rem 3rem 0.9rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .primary-btn {
+        padding: 0.9rem;
+        font-size: 0.95rem;
+    }
+
+    .result-header {
+        gap: 1rem;
+    }
+
+    .score-circle {
+        width: 70px;
+        height: 70px;
+    }
+
+    #scoreDisplay {
+        font-size: 1.5rem;
+    }
+
+    #statusLabel {
+        font-size: 1.35rem;
+    }
+
+    .metrics-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .metric-pill {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .generated-box-container {
+        padding: 0.9rem;
+    }
+
+    .generated-password-text {
+        font-size: 1rem;
+    }
+
+    .stats-card {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .toast-container {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    .toast {
+        width: 100%;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .bg-glow, .toast-container, #resetStatsBtn, .icon-btn, .cta-btn {
+        display: none !important;
+    }
+    
+    .card, .stats-card {
+        border: 1px solid #ccc;
+        box-shadow: none;
+        background: transparent;
+        color: black;
+    }
+}
