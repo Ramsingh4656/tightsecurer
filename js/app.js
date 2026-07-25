@@ -169,7 +169,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Display results block
         if (resultsSection) {
+            const isHidden = resultsSection.classList.contains("hidden-element");
             resultsSection.classList.remove("hidden-element");
+            if (isHidden && strengthMeter) {
+                // Force layout reflow to allow initial transition animation of strengthMeter
+                void strengthMeter.offsetWidth;
+            }
         }
 
         // Render Score and Status texts

@@ -52,7 +52,8 @@ body {
     font-family: var(--font-sans);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     position: relative;
     overflow-x: hidden;
@@ -516,6 +517,7 @@ body {
     white-space: nowrap;
     padding-right: 1rem;
     flex-grow: 1;
+    min-width: 0; /* Prevents overflow in flex container on mobile screens */
 }
 
 .generated-password-text::-webkit-scrollbar {
@@ -686,6 +688,8 @@ body {
     align-items: center;
     font-size: 0.75rem;
     font-weight: 600;
+    flex-wrap: wrap; /* Avoid layout break on extremely small viewports */
+    gap: 0.5rem;
 }
 
 .dist-label-tag {

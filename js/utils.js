@@ -129,29 +129,36 @@ function calculateShannonEntropy(password) {
  * @returns {Promise<boolean>} - Resolves to true if successful, false otherwise.
  */
 async function copyToClipboard(text) {
-    if (!navigator.clipboard) {
-        // Fallback for older browsers
+    // Attempt modern async clipboard API first (must be supported and in secure context)
+    if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
-            const textarea = document.createElement("textarea");
-            textarea.value = text;
-            textarea.style.position = "fixed"; // Avoid scrolling to bottom
-            document.body.appendChild(textarea);
-            textarea.focus();
-            textarea.select();
-            const successful = document.execCommand("copy");
-            document.body.removeChild(textarea);
-            return successful;
+            await navigator.clipboard.writeText(text);
+            return true;
         } catch (err) {
-            console.error("Fallback copy failed:", err);
-            return false;
+            console.warn("Async clipboard API failed, trying fallback:", err);
         }
     }
 
+    // Fallback: create temporary textarea and use execCommand
     try {
-        await navigator.clipboard.writeText(text);
-        return true;
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", ""); // Prevent keyboard popup on mobile
+        textarea.style.position = "fixed"; // Avoid scrolling to bottom
+        textarea.style.top = "0";
+        textarea.style.left = "0";
+        textarea.style.opacity = "0"; // Make invisible
+        document.body.appendChild(textarea);
+        
+        textarea.focus();
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // Support iOS select range
+        
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textarea);
+        return successful;
     } catch (err) {
-        console.error("Async clipboard write failed:", err);
+        console.error("Fallback copy failed:", err);
         return false;
     }
 }
