@@ -765,6 +765,10 @@ body {
     border-left-color: var(--success-green);
 }
 
+.toast-error {
+    border-left-color: var(--danger-red);
+}
+
 .toast-icon {
     width: 16px;
     height: 16px;
@@ -773,6 +777,10 @@ body {
 
 .toast-success .toast-icon {
     color: var(--success-green);
+}
+
+.toast-error .toast-icon {
+    color: var(--danger-red);
 }
 
 /* Class Helpers */

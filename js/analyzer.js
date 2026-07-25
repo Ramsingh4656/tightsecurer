@@ -15,37 +15,12 @@ const COMMON_PASSWORDS_LIST = [
 
 /**
  * Scans passwords to identify forward or reverse keyboard runs of 3 or more keys.
- * Matches rows: qwertyuiop, asdfghjkl, zxcvbnm, and 1234567890.
+ * Wraps hasKeyboardPattern from utils.js.
  * @param {string} password - The password to scan.
  * @returns {boolean} - True if a keyboard pattern of length 3+ is found.
  */
 function hasKeyboardPatternLocal(password) {
-    const keyboardRows = [
-        "qwertyuiop",
-        "asdfghjkl",
-        "zxcvbnm",
-        "1234567890"
-    ];
-    const lowerPassword = password.toLowerCase();
-
-    for (const row of keyboardRows) {
-        // Forward check
-        for (let i = 0; i <= row.length - 3; i++) {
-            const seq = row.substring(i, i + 3);
-            if (lowerPassword.includes(seq)) {
-                return true;
-            }
-        }
-        // Reverse check
-        const reversedRow = row.split("").reverse().join("");
-        for (let i = 0; i <= reversedRow.length - 3; i++) {
-            const seq = reversedRow.substring(i, i + 3);
-            if (lowerPassword.includes(seq)) {
-                return true;
-            }
-        }
-    }
-    return false;
+    return typeof hasKeyboardPattern === "function" ? hasKeyboardPattern(password) : false;
 }
 
 /**
@@ -85,27 +60,12 @@ function hasSequentialCharacters(password) {
 
 /**
  * Calculates the Shannon Entropy of a password string.
- * Formula: H = -sum(p_i * log2(p_i))
+ * Wraps calculateShannonEntropy from utils.js.
  * @param {string} str - The password string.
  * @returns {number} - Calculated Shannon entropy value rounded to 2 decimal places.
  */
 function calculateEntropy(str) {
-    if (!str) return 0;
-    const len = str.length;
-    const frequencies = {};
-
-    for (let i = 0; i < len; i++) {
-        const char = str[i];
-        frequencies[char] = (frequencies[char] || 0) + 1;
-    }
-
-    let entropy = 0;
-    for (const char in frequencies) {
-        const p = frequencies[char] / len;
-        entropy -= p * Math.log2(p);
-    }
-
-    return parseFloat(entropy.toFixed(2));
+    return typeof calculateShannonEntropy === "function" ? calculateShannonEntropy(str) : 0;
 }
 
 /**
@@ -256,20 +216,6 @@ function analyzePassword(password) {
 // Bind to window object to ensure global availability
 if (typeof window !== "undefined") {
     window.analyzePassword = analyzePassword;
-}
-
-// Add event listener to read the password from passwordInput when analyzeBtn is clicked
-if (typeof document !== "undefined") {
-    document.addEventListener("DOMContentLoaded", () => {
-        const analyzeBtn = document.getElementById("analyzeBtn");
-        const passwordInput = document.getElementById("passwordInput");
-        if (analyzeBtn && passwordInput) {
-            analyzeBtn.addEventListener("click", () => {
-                const password = passwordInput.value;
-                analyzePassword(password);
-            });
-        }
-    });
 }
 
 // Export module if running in a modular environment

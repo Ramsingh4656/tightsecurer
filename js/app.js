@@ -6,35 +6,46 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Cache DOM Elements
-    const passwordInput = document.getElementById("passwordInput");
-    const togglePasswordBtn = document.getElementById("togglePasswordBtn");
-    const eyeIconOpen = document.getElementById("eyeIconOpen");
-    const eyeIconClosed = document.getElementById("eyeIconClosed");
-    const analyzeBtn = document.getElementById("analyzeBtn");
+    // Cache DOM Elements using utility selector
+    const passwordInput = typeof $ === "function" ? $("#passwordInput") : document.getElementById("passwordInput");
+    const togglePasswordBtn = typeof $ === "function" ? $("#togglePasswordBtn") : document.getElementById("togglePasswordBtn");
+    const eyeIconOpen = typeof $ === "function" ? $("#eyeIconOpen") : document.getElementById("eyeIconOpen");
+    const eyeIconClosed = typeof $ === "function" ? $("#eyeIconClosed") : document.getElementById("eyeIconClosed");
+    const analyzeBtn = typeof $ === "function" ? $("#analyzeBtn") : document.getElementById("analyzeBtn");
     
-    const resultsSection = document.getElementById("resultsSection");
-    const scoreDisplay = document.getElementById("scoreDisplay");
-    const statusLabel = document.getElementById("statusLabel");
-    const strengthMeter = document.getElementById("strengthMeter");
+    const resultsSection = typeof $ === "function" ? $("#resultsSection") : document.getElementById("resultsSection");
+    const scoreDisplay = typeof $ === "function" ? $("#scoreDisplay") : document.getElementById("scoreDisplay");
+    const statusLabel = typeof $ === "function" ? $("#statusLabel") : document.getElementById("statusLabel");
+    const strengthMeter = typeof $ === "function" ? $("#strengthMeter") : document.getElementById("strengthMeter");
     
-    const successMessage = document.getElementById("successMessage");
-    const weaknessBox = document.getElementById("weaknessBox");
-    const weaknessesList = document.getElementById("weaknessesList");
-    const suggestionBox = document.getElementById("suggestionBox");
-    const suggestionsList = document.getElementById("suggestionsList");
-    const generateBtn = document.getElementById("generateBtn");
+    const successMessage = typeof $ === "function" ? $("#successMessage") : document.getElementById("successMessage");
+    const weaknessBox = typeof $ === "function" ? $("#weaknessBox") : document.getElementById("weaknessBox");
+    const weaknessesList = typeof $ === "function" ? $("#weaknessesList") : document.getElementById("weaknessesList");
+    const suggestionBox = typeof $ === "function" ? $("#suggestionBox") : document.getElementById("suggestionBox");
+    const suggestionsList = typeof $ === "function" ? $("#suggestionsList") : document.getElementById("suggestionsList");
+    const generateBtn = typeof $ === "function" ? $("#generateBtn") : document.getElementById("generateBtn");
     
-    const generatorSection = document.getElementById("generatorSection");
-    const generatedPasswordBox = document.getElementById("generatedPasswordBox");
-    const copyBtn = document.getElementById("copyBtn");
-    const regenerateBtn = document.getElementById("regenerateBtn");
-    const lengthSlider = document.getElementById("lengthSlider");
-    const lengthDisplay = document.getElementById("lengthDisplay");
+    const generatorSection = typeof $ === "function" ? $("#generatorSection") : document.getElementById("generatorSection");
+    const generatedPasswordBox = typeof $ === "function" ? $("#generatedPasswordBox") : document.getElementById("generatedPasswordBox");
+    const copyBtn = typeof $ === "function" ? $("#copyBtn") : document.getElementById("copyBtn");
+    const regenerateBtn = typeof $ === "function" ? $("#regenerateBtn") : document.getElementById("regenerateBtn");
+    const lengthSlider = typeof $ === "function" ? $("#lengthSlider") : document.getElementById("lengthSlider");
+    const lengthDisplay = typeof $ === "function" ? $("#lengthDisplay") : document.getElementById("lengthDisplay");
 
     // Initialize UI
     if (typeof renderStatistics === "function") {
         renderStatistics();
+    }
+
+    // Enforce slider min length to be 12 to guarantee strong generated passwords
+    if (lengthSlider) {
+        lengthSlider.min = "12";
+        if (parseInt(lengthSlider.value, 10) < 12) {
+            lengthSlider.value = "12";
+        }
+    }
+    if (lengthDisplay && lengthSlider) {
+        lengthDisplay.textContent = lengthSlider.value;
     }
 
     // Toggle Password Visibility
@@ -266,8 +277,11 @@ document.addEventListener("DOMContentLoaded", () => {
      * @param {number} length - Password length.
      */
     function triggerPasswordGeneration(length) {
-        if (typeof generateStrongPassword === "function" && generatedPasswordBox) {
-            const password = generateStrongPassword(length);
+        if (typeof generatePassword === "function" && generatedPasswordBox) {
+            // Retrieve options and set length
+            const options = typeof getGeneratorOptions === "function" ? getGeneratorOptions() : {};
+            options.length = length;
+            const password = generatePassword(options);
             generatedPasswordBox.textContent = password;
             
             // Add custom dynamic glow/animation trigger
@@ -276,48 +290,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 generatedPasswordBox.classList.remove("animate-fade-in");
             }, 800);
         }
-    }
-
-    /**
-     * Renders a temporary toast notification alert on the bottom right.
-     * @param {string} message - Message text to display.
-     * @param {string} type - Notification type: 'success' | 'error'.
-     */
-    function showToast(message, type = "success") {
-        const toastContainer = document.getElementById("toastContainer");
-        if (!toastContainer) return;
-
-        const toast = document.createElement("div");
-        toast.className = `toast toast-${type} animate-slide-in-right`;
-
-        // SVGs for toast status icon
-        const successSvg = `
-            <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-        `;
-        const errorSvg = `
-            <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-        `;
-
-        toast.innerHTML = `
-            ${type === "success" ? successSvg : errorSvg}
-            <span>${message}</span>
-        `;
-
-        toastContainer.appendChild(toast);
-
-        // Slide out and destroy toast after delay
-        setTimeout(() => {
-            toast.classList.remove("animate-slide-in-right");
-            toast.classList.add("animate-slide-out-right");
-            toast.addEventListener("animationend", () => {
-                toast.remove();
-            });
-        }, 2800);
     }
 });

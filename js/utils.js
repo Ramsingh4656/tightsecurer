@@ -3,6 +3,42 @@
  * Follows camelCase naming convention.
  */
 
+/**
+ * Query selector shortcut.
+ * @param {string} selector - CSS selector.
+ * @returns {Element|null} - Selected DOM element.
+ */
+function $(selector) {
+    return document.querySelector(selector);
+}
+
+/**
+ * Query selector all shortcut.
+ * @param {string} selector - CSS selector.
+ * @returns {NodeList} - Selected DOM elements.
+ */
+function $$(selector) {
+    return document.querySelectorAll(selector);
+}
+
+/**
+ * Debounces a function.
+ * @param {Function} func - Function to debounce.
+ * @param {number} wait - Delay in milliseconds.
+ * @returns {Function} - Debounced function.
+ */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // A list of the most common passwords for offline checks
 const COMMON_PASSWORDS = [
     "123", "1234", "12345", "123456", "1234567", "12345678", "123456789", "1234567890",
@@ -118,4 +154,73 @@ async function copyToClipboard(text) {
         console.error("Async clipboard write failed:", err);
         return false;
     }
+}
+
+/**
+ * Renders a temporary toast notification alert on the bottom right.
+ * @param {string} message - Message text to display.
+ * @param {string} type - Notification type: 'success' | 'error'.
+ */
+function showToast(message, type = "success") {
+    const toastContainer = document.getElementById("toastContainer");
+    if (!toastContainer) return;
+
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${type} animate-slide-in-right`;
+
+    // SVGs for toast status icon
+    const successSvg = `
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+    `;
+    const errorSvg = `
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+    `;
+
+    toast.innerHTML = `
+        ${type === "success" ? successSvg : errorSvg}
+        <span>${message}</span>
+    `;
+
+    toastContainer.appendChild(toast);
+
+    // Slide out and destroy toast after delay
+    setTimeout(() => {
+        toast.classList.remove("animate-slide-in-right");
+        toast.classList.add("animate-slide-out-right");
+        toast.addEventListener("animationend", () => {
+            toast.remove();
+        });
+    }, 2800);
+}
+
+// Bind to window object to ensure global availability
+if (typeof window !== "undefined") {
+    window.$ = $;
+    window.$$ = $$;
+    window.debounce = debounce;
+    window.showToast = showToast;
+    window.isCommonPassword = isCommonPassword;
+    window.hasKeyboardPattern = hasKeyboardPattern;
+    window.calculateShannonEntropy = calculateShannonEntropy;
+    window.copyToClipboard = copyToClipboard;
+}
+
+// Export module if running in a modular environment
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+    module.exports = {
+        $,
+        $$,
+        debounce,
+        showToast,
+        isCommonPassword,
+        hasKeyboardPattern,
+        calculateShannonEntropy,
+        copyToClipboard
+    };
 }
