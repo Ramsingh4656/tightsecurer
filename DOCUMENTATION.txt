@@ -1,0 +1,103 @@
+DOCUMENTATION - Password Security Assistant Implementation
+
+1. System Architecture Overview
+
+The Password Security Assistant, named Fortress, is built as a client-side Single Page Application (SPA) using a pure Vanilla JavaScript, HTML5, and CSS3 tech stack. The system runs entirely offline in the user's web browser, ensuring zero server-side exposure or data leakage for inputted credentials.
+
+The architecture is divided into three layers:
+- Presentation Layer: index.html handles the structural layout, style.css controls the dark-themed visual design system, animations.css provides transitions and states, and responsive.css implements scaling.
+- Business Logic Layer: analyzer.js performs security checks, generator.js generates secure strings, and statistics.js stores scan history.
+- Helper & Data Layer: utils.js handles generic operations and offline lists, while localStorage stores persistent statistics.
+
+
+2. Visual and Presentation Design System
+
+Style Sheet (style.css):
+Defines the core dark-slate color palette matching B.Sc. IT project specifications. Color tokens are stored in CSS custom variables:
+- Background: Color code Hex 0F172A.
+- Primary Accent: Hex 2563EB (Primary Blue).
+- Success Alert: Hex 22C55E (Success Green).
+- Warning Alert: Hex FACC15 (Warning Yellow).
+- Danger Alert: Hex EF4444 (Danger Red).
+- Card Container: Hex 1E293B at 65 percent opacity.
+- Text: White (Hex FFFFFF) for readability and slate (Hex 94A3B8) for secondary indicators.
+
+The cards employ glassmorphism styling utilizing backdrop filters (backdrop-filter blur of 16px), subtle border transparency, and soft shadowed overlays (glass-shadow). Form controls use custom inputs with transition triggers and outline indicators on focus states.
+
+Responsive Sheet (responsive.css):
+Utilizes viewport media query breakpoints:
+- Tablet Breakpoint: 1024px, changing the dual-column desktop dashboard grid into a single vertical layout structure.
+- Mobile Breakpoint: 640px, scaling down card padding, font sizes (logo, labels), and shrinking the layout of metric pass/fail pills to fit smaller displays.
+- Print Breakpoint: Statically simplifies colors to grayscale, hiding background glow divisions, action buttons, and sliders.
+
+Animations Sheet (animations.css):
+Handles keyframe rules:
+- fadeIn and slideUp: Smooth transition slide-ups for page elements on initial dashboard load.
+- shake: Multi-axis horizontal bounce animation triggered on form validation failure (such as analyzing empty passwords).
+- successPulse: Periodic scale and glow pulse centered around the Very Strong status ring.
+- slideInRight and slideOutRight: Visual movement transitions for copying text notifications.
+- strength-meter-bar: Dedicated transition speed configurations using custom cubic-beziers (cubic-bezier 0.34, 1.56, 0.64, 1) to animate the meter loading bar with an elastic bounce effect.
+
+
+3. Core Utility and Cryptographic Functions (utils.js)
+
+The utility layer isolates list assets and base algorithms:
+- COMMON_PASSWORDS: An array containing standard low-complexity passwords (e.g. 123, 1234, password, qwerty) to block common credentials offline.
+- KEYBOARD_ROWS: An array containing row layouts (qwertyuiop, asdfghjkl, zxcvbnm, 1234567890) used to parse keyboard pattern runs.
+- isCommonPassword: Compares a lowercase value of the input password against the COMMON_PASSWORDS array.
+- hasKeyboardPattern: Scans passwords to identify forward or reverse keyboard runs of 3 or more keys by checking horizontal string rows.
+- calculateShannonEntropy: Computes Shannon Character Entropy by mapping the probability of each unique character frequency within the password string. The computed entropy value is rounded to 2 decimal places.
+- copyToClipboard: Modern asynchronous handler accessing navigator.clipboard.writeText. Incorporates a solid text-area element fallback scheme for older browsers.
+
+
+4. Scoring and Analysis Engine (analyzer.js)
+
+The analysis engine evaluates password strength against 9 metrics using a 100-point scoring rule:
+- Length check: Length of 12 or more characters awards 20 points.
+- Uppercase check: At least 1 uppercase letter awards 10 points.
+- Lowercase check: At least 1 lowercase letter awards 10 points.
+- Numbers check: At least 1 digit awards 10 points.
+- Symbols check: At least 1 non-alphanumeric special character awards 15 points.
+- No repeats: Zero consecutive repeating character structures (e.g., aa, 11) awards 10 points.
+- No sequences: Absence of alphabetical (abc, cba) or numerical (123, 321) runs of length 3, alongside keyboard pattern verification, awards 10 points.
+- Not common: Password not present in the common list awards 15 points.
+- Entropy: Shannon entropy score equal to or greater than 3.0 bits awards 10 points.
+
+The function analyzePassword compiles a result object containing:
+- score: Total sum of the matching metrics (0 to 100).
+- status: Evaluated strength bracket (0-30 is Weak, 31-60 is Medium, 61-80 is Strong, 81-100 is Very Strong).
+- weaknesses: Array of strings describing the security criteria that failed.
+- suggestions: Array of strings offering correction tips.
+- passedRules: Boolean mapping of the passing/failing status of each rule.
+
+
+5. Secure Password Generator (generator.js)
+
+Handles secure string generation to replace vulnerable credentials:
+- generateStrongPassword: Main entry point receiving a length parameter (between 8 and 32). Guarantees inclusion of at least one character from four pools (CHARS_LOWER, CHARS_UPPER, CHARS_NUMBERS, and CHARS_SYMBOLS). The remaining length is filled randomly from the collective pool.
+- getRandomChar: Selects a character index from a specified pool using window.crypto.getRandomValues to guarantee cryptographically secure randomness.
+- secureShuffleArray: Implements the Fisher-Yates shuffle algorithm on the character array. Random swaps are computed using secure values from Uint32Array arrays via the Web Crypto API, eliminating position predictability.
+
+
+6. Session Statistics Engine (statistics.js)
+
+Tracks historical analysis parameters to display tracking data (statsSection):
+- loadStatistics: Reads and parses the persistent data object from localStorage. Falls back to a clean default state if storage is empty.
+- saveStatistics: Commits the updated stats state object to localStorage under a static key.
+- trackAnalysis: Triggered upon successful analyses to increment total scanned count, add scores, record strength classifications (Weak, Medium, Strong, Very Strong), and log specific rule failures.
+- renderStatistics: Outputs dynamic HTML content to show progress bars representing the strength distribution, the total scanned count, and the running average score of all evaluated passwords.
+- resetStatistics: Clears local storage keys and updates the rendering to show baseline states.
+
+
+7. Coordination and Event Control (app.js)
+
+Main entry point containing event hooks and page state coordination:
+- DomContentLoaded: Initializes UI, renders default statistics, and binds active event listeners.
+- passwordInput listener: Binds keyboard event listeners for the Enter key to trigger analysis.
+- togglePasswordBtn listener: Alternates the passwordInput element type between password and text, swapping inline eye SVGs to toggle input visibility.
+- lengthSlider listener: Updates lengthDisplay text in real-time as the slider moves.
+- generateBtn listener: Reveals generatorSection, triggers secure generation, and scrolls the card smoothly into view.
+- regenerateBtn listener: Re-generates a secure password based on the current length slider value.
+- copyBtn listener: Reads generated text and copies it to the clipboard, triggering a notification toast.
+- runAnalysis function: Gathers password input, validates for empty values (triggering card shake animation on error), runs analyzePassword, displays resultsSection, updates metrics checklist pills (pill-pass or pill-fail classes), filters weaknesses/suggestions, and fires stats updates.
+- showToast function: Generates a temporary toast message container on the bottom-right, displaying success or error states before sliding out and self-destructing.
