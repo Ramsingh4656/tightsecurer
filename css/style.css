@@ -6,9 +6,8 @@
 
 :root {
     --bg-color: #0F172A;
-    --card-bg: rgba(30, 41, 59, 0.65);
+    --card-bg: #1E293B;
     --card-border: rgba(255, 255, 255, 0.08);
-    --card-border-glow: rgba(37, 99, 235, 0.25);
     
     --primary-blue: #2563EB;
     --primary-glow: rgba(37, 99, 235, 0.4);
@@ -34,7 +33,7 @@
     --text-secondary: #94A3B8;
     --text-muted: #64748B;
     
-    --glass-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --font-mono: 'Space Grotesk', SFMono-Regular, Consolas, monospace;
 }
@@ -149,16 +148,9 @@ body {
 .card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border-radius: 20px;
     padding: 2rem;
-    box-shadow: var(--glass-shadow);
-}
-
-.card:hover {
-    border-color: var(--card-border-glow);
-    box-shadow: 0 12px 48px 0 rgba(37, 99, 235, 0.15);
+    box-shadow: var(--card-shadow);
 }
 
 .section-title {
@@ -610,15 +602,9 @@ body {
 .stats-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border-radius: 20px;
     padding: 2rem;
-    box-shadow: var(--glass-shadow);
-}
-
-.stats-card:hover {
-    border-color: var(--card-border-glow);
+    box-shadow: var(--card-shadow);
 }
 
 .stats-title {
@@ -754,7 +740,6 @@ body {
     background: rgba(30, 41, 59, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-left: 4px solid var(--primary-blue);
-    backdrop-filter: blur(8px);
     border-radius: 8px;
     padding: 0.9rem 1.25rem;
     color: white;

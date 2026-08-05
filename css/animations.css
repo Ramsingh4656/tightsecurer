@@ -127,11 +127,11 @@ button,
     transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
 }
 
-/* Card hover scale and glow effect */
+/* Card hover scale effect */
 .card:hover, .stats-card:hover {
     transform: translateY(-2px);
-    border-color: var(--card-border-glow);
-    box-shadow: 0 16px 40px 0 rgba(37, 99, 235, 0.12), var(--glass-shadow);
+    border-color: var(--card-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Button scaling and click feedback */
