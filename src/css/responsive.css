@@ -20,6 +20,64 @@
     }
 }
 
+/* Medium & Small Devices: Tablets & Mobile Phones */
+@media (max-width: 768px) {
+    /* Touch Target Sizing (min 44x44px for comfortable tapping) */
+    .theme-toggle-btn {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .input-wrapper .icon-btn {
+        width: 44px;
+        height: 44px;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .generated-actions .icon-btn {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .range-slider::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .range-slider::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--primary-blue);
+        cursor: pointer;
+        border: none;
+    }
+    
+    .secondary-btn {
+        padding: 0.8rem 1.4rem;
+        font-size: 0.95rem;
+    }
+    
+    .app-footer-info {
+        padding-top: 1.5rem;
+        padding-bottom: 2rem; /* Add comfort spacing for screen bottom */
+        margin-top: 1.5rem;
+    }
+    
+    .app-footer-info p {
+        line-height: 1.6;
+    }
+}
+
 /* Small Devices: Mobile Phones */
 @media (max-width: 640px) {
     body {
@@ -105,6 +163,45 @@
 
     .toast {
         width: 100%;
+    }
+}
+
+/* Extra Small Devices: Very Narrow Phones (320px - 360px) */
+@media (max-width: 360px) {
+    .app-header .logo-area h1 {
+        font-size: 1.7rem;
+    }
+    
+    .logo-area {
+        gap: 0.5rem;
+    }
+    
+    .shield-icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .generated-box-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+    
+    .generated-actions {
+        justify-content: flex-end;
+    }
+    
+    .app-footer-info p {
+        font-size: 0.75rem;
     }
 }
 

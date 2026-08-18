@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient for the Shield -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" /> <!-- Neon Blue -->
+      <stop offset="100%" stop-color="#1D4ED8" /> <!-- Deep Blue -->
+    </linearGradient>
+    <!-- Border Gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Shield Shadow / Border -->
+  <path d="M256 480c-10 0-220-100-220-300V90l220-80 220 80v290c0 200-210 300-220 300z" fill="url(#borderGrad)" />
+  
+  <!-- Inner Shield (inset slightly) -->
+  <path d="M256 450c-8 0-190-85-190-270V115l190-70 190 70v195c0 185-182 270-190 270z" fill="#0F172A" />
+  
+  <!-- Padlock Shackle -->
+  <path d="M196 230v-40c0-33 27-60 60-60s60 27 60 60v40" fill="none" stroke="url(#shieldGrad)" stroke-width="24" stroke-linecap="round" />
+  
+  <!-- Padlock Body -->
+  <rect x="166" y="220" width="180" height="140" rx="20" fill="url(#shieldGrad)" />
+  
+  <!-- Padlock Accent Light reflection -->
+  <rect x="178" y="232" width="156" height="116" rx="14" fill="none" stroke="#FFFFFF" stroke-width="4" opacity="0.15" />
+  
+  <!-- Keyhole -->
+  <circle cx="256" cy="275" r="14" fill="#FFFFFF" />
+  <path d="M256 285v25" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" />
+</svg>
