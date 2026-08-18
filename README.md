@@ -1,4 +1,4 @@
-# Fortress — Password Security Assistant
+# TightSecure — Password Security Assistant
 
 An elegant, high-performance, single-page application (SPA) designed to evaluate password strength using nine detailed security metrics. Built as a mini-project for B.Sc. IT, it utilizes only standard client-side languages (HTML5, CSS3, Vanilla JavaScript) without external libraries, backend servers, or databases.
 
