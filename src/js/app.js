@@ -10,6 +10,31 @@ import './generator.js';
 import './statistics.js';
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Theme Management
+    const themeStorageKey = "tightsecure-theme";
+    const currentTheme = localStorage.getItem(themeStorageKey) || "dark";
+    const themeToggleBtn = typeof $ === "function" ? $("#themeToggleBtn") : document.getElementById("themeToggleBtn");
+    
+    // Apply the saved theme on load
+    if (currentTheme === "light") {
+        document.documentElement.setAttribute("data-theme", "light");
+    } else {
+        document.documentElement.removeAttribute("data-theme");
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", () => {
+            const isLight = document.documentElement.getAttribute("data-theme") === "light";
+            if (isLight) {
+                document.documentElement.removeAttribute("data-theme");
+                localStorage.setItem(themeStorageKey, "dark");
+            } else {
+                document.documentElement.setAttribute("data-theme", "light");
+                localStorage.setItem(themeStorageKey, "light");
+            }
+        });
+    }
+
     // Cache DOM Elements using utility selector
     const passwordInput = typeof $ === "function" ? $("#passwordInput") : document.getElementById("passwordInput");
     const togglePasswordBtn = typeof $ === "function" ? $("#togglePasswordBtn") : document.getElementById("togglePasswordBtn");
