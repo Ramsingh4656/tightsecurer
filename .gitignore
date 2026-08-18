@@ -91,9 +91,7 @@ coverage/
 # Keep project assets and locks explicitly tracked
 # These are unignored to make sure we don't accidentally match subdirectories
 !package-lock.json
-!assets/
-!css/
-!js/
+!src/
 !index.html
 !README.md
 

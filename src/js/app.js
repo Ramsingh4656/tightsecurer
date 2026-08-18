@@ -4,6 +4,10 @@
  * manages visibility toggles, and handles notification alerts.
  * Follows camelCase naming convention.
  */
+import './utils.js';
+import './analyzer.js';
+import './generator.js';
+import './statistics.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     // Cache DOM Elements using utility selector

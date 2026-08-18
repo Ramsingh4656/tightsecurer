@@ -40,21 +40,24 @@ The project directory is structured as follows:
 
 ```text
 ProjectFolder/
-  ├── index.html          # Main HTML5 document structure
-  ├── css/
-  │   ├── style.css       # Core styles and design tokens
-  │   ├── responsive.css  # Mobile and tablet responsiveness rules
-  │   └── animations.css  # Keyframe animations and transitions
-  ├── js/
-  │   ├── utils.js        # Helper utility functions
-  │   ├── analyzer.js     # Password strength scoring engine
-  │   ├── generator.js    # Cryptographically secure generator
-  │   ├── statistics.js   # Session metrics & local storage manager
-  │   └── app.js          # Main coordinator and event binder
-  ├── assets/
-  │   ├── images/         # Image files (if needed)
-  │   ├── icons/          # Icon assets
-  │   └── screenshots/    # Application demo screenshots
+  ├── index.html          # Main entry point HTML5 document
+  ├── package.json        # NPM dependencies and scripts
+  ├── vercel.json         # Vercel deployment configuration
+  ├── src/
+  │   ├── css/
+  │   │   ├── style.css       # Core styles and design tokens
+  │   │   ├── responsive.css  # Mobile and tablet responsiveness rules
+  │   │   └── animations.css  # Keyframe animations and transitions
+  │   ├── js/
+  │   │   ├── utils.js        # Helper utility functions
+  │   │   ├── analyzer.js     # Password strength scoring engine
+  │   │   ├── generator.js    # Cryptographically secure generator
+  │   │   ├── statistics.js   # Session metrics & local storage manager
+  │   │   └── app.js          # Main entry module & coordinator
+  │   └── assets/
+  │       ├── images/         # Image assets
+  │       ├── icons/          # Icon assets
+  │       └── screenshots/    # Application demo screenshots
   └── README.md           # Project documentation
 ```
 
@@ -62,20 +65,39 @@ ProjectFolder/
 
 ## ⚙️ How to Run
 
-Since the application does not require a build step or backend environment, you can open it directly in a web browser:
+This project uses **Vite** for local development and bundling.
+
+### Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+
+### Local Development
 
 1. Clone or download this project.
-2. Locate `index.html` in the root folder.
-3. Double-click `index.html` to open it in any modern web browser (Chrome, Safari, Firefox, Edge).
-4. (Optional) Run a simple static file server locally:
+2. Install the dependencies:
    ```bash
-   # Python 3
-   python -m http.server 8000
-   
-   # Node.js
-   npx serve .
+   npm install
    ```
-   Open `http://localhost:8000` (or the respective port) to view the application.
+3. Start the local development server:
+   ```bash
+   npm run dev
+   ```
+4. Open the displayed URL (typically `http://localhost:5173`) in your browser.
+
+### Production Build
+
+To build the static files for production deployment:
+```bash
+npm run build
+```
+This generates optimized static files in the `dist/` directory.
+
+### Preview Build
+
+To preview the built production app locally:
+```bash
+npm run preview
+```
 
 ---
 
