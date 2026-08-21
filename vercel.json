@@ -4,7 +4,7 @@
   "redirects": [
     {
       "source": "/feedback",
-      "destination": "https://www.ramsingh.me/",
+      "destination": "feedback/index.html",
       "permanent": false
     }
   ]
