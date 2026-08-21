@@ -1,9 +1,11 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/feedback",
-      "destination": "/feedback/index.html"
+      "destination": "https://www.ramsingh.me/",
+      "permanent": false
     }
   ]
 }
